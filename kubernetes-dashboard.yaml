@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+  name: kubernetes-dashboard
+  namespace: kube-system
+spec:
+  # 添加Service的type为NodePort
+  type: NodePort
+  ports:
+    - port: 443
+      targetPort: 8443
+      # 添加映射到虚拟机的端口,k8s只支持30000以上的端口
+      nodePort: 30001
+  selector:
+    k8s-app: kubernetes-dashboard
