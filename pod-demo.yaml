@@ -1,0 +1,28 @@
+# 简单的pod定义
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo
+  # kubectl get pods 可查看到的NAME
+  namespace: default
+  labels:
+    app: myapp
+    tier: frontend
+  annotations:
+    createby: clusterAdmin
+# 可供svc查找的标签
+spec:
+  containers:
+  - name: myapp
+    image: ikubernetes/myapp:v1
+  # - name: busybox
+  #   image: busybox:latest
+  #   command:
+  #   # 或使用此方式定义 ["/bin/sh","-c","sleep 3600"]
+  #   - "/bin/sh"
+  #   - "-c"
+  #   - "sleep 3600"
+#  使用节点标签选择器
+  # nodeSelector:
+  #   disktype: ssd
+  
