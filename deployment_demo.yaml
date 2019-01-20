@@ -1,0 +1,26 @@
+# deployment控制器使用
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deploy
+  namespace: default
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+      release: beta
+  template:
+  # 下方为pod模板
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        release: beta
+    spec:
+      containers:
+      - name: myapp-container
+        image: ikubernetes/myapp:v1
+        ports:
+        - name: http
+          containerPort: 80
