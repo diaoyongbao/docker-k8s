@@ -1,0 +1,30 @@
+# 添加ingress-nginx-service对外访问
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app: ingress-nginx
+# 对应于kubectl get pods -n ingress-nginx --show-labels nginx的labels
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+      nodePort: 30080
+      # 添加对外访问端口
+    - name: https
+      port: 443
+      targetPort: 443
+      protocol: TCP
+      nodePort: 30443
+  selector:
+    app: ingress-nginx
+    # app.kubernetes.io/name: ingress-nginx
+    # app.kubernetes.io/part-of: ingress-nginx
+
+---
+

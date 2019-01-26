@@ -1,0 +1,41 @@
+# 定义一个service
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat
+  namespace: default
+spec:
+  selector:
+    app: tomcat
+    release: beta
+  ports:
+  - name: http
+    targetPort: 8080
+    port: 8080
+---
+# deployment控制器使用
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-deploy
+  namespace: default
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tomcat
+      release: beta
+  template:
+  # 下方为pod模板
+    metadata:
+      name: tomcat-pod
+      labels:
+        app: tomcat
+        release: beta
+    spec:
+      containers:
+      - name: tomcat-container
+        image: tomcat:8.5.32-jre8-alpine
+        ports:
+        - name: http
+          containerPort: 8080
